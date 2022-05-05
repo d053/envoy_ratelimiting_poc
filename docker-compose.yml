@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  envoy:
+    build: ./
+    ports:
+      - "8080:80"
+      - "8081:8081"
+    volumes:
+      - ./config/envoy.yaml:/config/envoy.yaml
+    environment:
+      - DEBUG_LEVEL=debug
+      - SERVICE_NAME=app
+      - SERVICE_PORT=8888
+
+  app:
+    image: kennethreitz/httpbin:latest
+    ports: 
+      -  "0.0.0.0:8888:80"
+       
+
+  appwhoami:
+    image: containous/whoami:latest
+    ports:
+      - "0.0.0.0:8889:80"
+
